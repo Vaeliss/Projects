@@ -1,0 +1,1 @@
+small projects made studying python, C... programming in general
