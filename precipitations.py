@@ -1,100 +1,60 @@
-Python 3.7.4 (tags/v3.7.4:e09359112e, Jul  8 2019, 20:34:20) [MSC v.1916 64 bit (AMD64)] on win32
-Type "help", "copyright", "credits" or "license()" for more information.
->>> 
-== RESTART: C:\Users\alvis\AppData\Local\Programs\Python\Python37\memory.py ==
-press q to quit, any other key to continue: 
-== RESTART: C:\Users\alvis\AppData\Local\Programs\Python\Python37\memory.py ==
-press q to quit, any other key to continue: 
- RESTART: C:\Users\alvis\AppData\Local\Programs\Python\Python37\mastermind.py 
-Want to play? input 'q' to quit e
-Guess the secret number: 5543
-Numbers in the right position: 1 
-Numers which are in the number but in the wrong position 1
-Guess the secret number: 4322
-Numbers in the right position: 0 
-Numers which are in the number but in the wrong position 0
-Guess the secret number: 5435
-Numbers in the right position: 1 
-Numers which are in the number but in the wrong position 1
-Guess the secret number: 5224
-Numbers in the right position: 1 
-Numers which are in the number but in the wrong position 0
-Guess the secret number: 5333
-Numbers in the right position: 1 
-Numers which are in the number but in the wrong position 0
-Guess the secret number: 5252
-Numbers in the right position: 1 
-Numers which are in the number but in the wrong position 1
-Guess the secret number: 5000
-Numbers in the right position: 2 
-Numers which are in the number but in the wrong position 2
-Guess the secret number: 5030
-Numbers in the right position: 2 
-Numers which are in the number but in the wrong position 1
-Guess the secret number: 5707
-Numbers in the right position: 1 
-Numers which are in the number but in the wrong position 1
-Guess the secret number: 6000
-Numbers in the right position: 1 
-Numers which are in the number but in the wrong position 2
-Guess the secret number: 5000
-Numbers in the right position: 2 
-Numers which are in the number but in the wrong position 2
-Guess the secret number: 5008
-Numbers in the right position: 1 
-Numers which are in the number but in the wrong position 2
-Guess the secret number: 0000
-Numbers in the right position: 1 
-Numers which are in the number but in the wrong position 3
-Guess the secret number: 0005
-Numbers in the right position: 0 
-Numers which are in the number but in the wrong position 4
-Guess the secret number: 5440
-Numbers in the right position: 2 
-Numers which are in the number but in the wrong position 0
-Guess the secret number: 5660
-Numbers in the right position: 2 
-Numers which are in the number but in the wrong position 0
-Guess the secret number: 5880
-Numbers in the right position: 2 
-Numers which are in the number but in the wrong position 0
-Guess the secret number: 5990
-Numbers in the right position: 3 
-Numers which are in the number but in the wrong position 1
-Guess the secret number: 5910
-Numbers in the right position: 2 
-Numers which are in the number but in the wrong position 2
-Guess the secret number: 5190
-Numbers in the right position: 4 
-Numers which are in the number but in the wrong position 0
-It took 20 guess to get it right! Congrats!
+import csv
+import matplotlib.pyplot as plt
+from datetime import datetime
+
+fig,ax = plt.subplots(figsize=(15,9))
+plt.style.use('ggplot')
+
+#costruzione dello scheletro del grafico
+ax.set_ylabel('daily precipitations',fontsize=10)
+fig.autofmt_xdate()
+ax.tick_params(axis='both',labelsize=14)
+
+#sitka
+filename_sitka = './sitka_weather_2018_simple.csv'
+with open(filename_sitka) as f:
+    reader = csv.reader(f)
+    header = next(reader)
+    print(header)
+    daily_sitka = []
+    dates = []
+    for row in reader:
+        current_date = datetime.strptime(row[2],'%Y-%m-%d')
+        try:
+            daily_sitka.append(float(row[3]))
+        except:
+            print('Data missing for ' + row[2])
+        else:
+           dates.append(current_date)
 
 
-Want to play? input 'q' to quit 
-= RESTART: C:\Users\alvis\AppData\Local\Programs\Python\Python37\matplot3.py =
->>> 
-= RESTART: C:\Users\alvis\AppData\Local\Programs\Python\Python37\matplot4.py =
->>> 
-= RESTART: C:\Users\alvis\AppData\Local\Programs\Python\Python37\matplot4.py =
->>> 
-= RESTART: C:\Users\alvis\AppData\Local\Programs\Python\Python37\matplot4.py =
->>> 
-= RESTART: C:\Users\alvis\AppData\Local\Programs\Python\Python37\matplot4.py =
->>> 
-= RESTART: C:\Users\alvis\AppData\Local\Programs\Python\Python37\matplot4.py =
->>> 
-= RESTART: C:\Users\alvis\AppData\Local\Programs\Python\Python37\matplot4.py =
->>> 
-= RESTART: C:\Users\alvis\AppData\Local\Programs\Python\Python37\matplot4.py =
->>> 
-= RESTART: C:\Users\alvis\AppData\Local\Programs\Python\Python37\matplot4.py =
->>> 
- RESTART: C:\Users\alvis\AppData\Local\Programs\Python\Python37\matplotlib_temperatures.py 
-['STATION', 'NAME', 'DATE', 'PRCP', 'TMAX', 'TMIN', 'TOBS']
-Data missing for 2018-02-18 00:00:00
-['STATION', 'NAME', 'DATE', 'PRCP', 'TAVG', 'TMAX', 'TMIN']
->>> 
- RESTART: C:\Users\alvis\AppData\Local\Programs\Python\Python37\precipitations.py 
-['STATION', 'NAME', 'DATE', 'PRCP', 'TAVG', 'TMAX', 'TMIN']
-['STATION', 'NAME', 'DATE', 'PRCP', 'TMAX', 'TMIN', 'TOBS']
->>> 
+
+#costruzione del grafico
+ax.plot(dates,daily_sitka, c='blue',linewidth=3,alpha=0.7)
+
+
+#death valley
+filename_death = './death_valley_2018_simple.csv'
+with open(filename_death) as f:
+    reader = csv.reader(f)
+    header = next(reader)
+    print(header)
+    daily_death = []
+    dates = []
+    for row in reader:
+        current_date = datetime.strptime(row[2],'%Y-%m-%d')
+        try:
+            daily_death.append(float(row[3]))
+        except:
+            print('Data missing for ' + row[2])
+        else:
+           dates.append(current_date)
+
+
+#costruzione del grafico
+ax.plot(dates,daily_death, c='red',linewidth=3,alpha=0.7)
+
+
+ax.set_title('Daily precipitations comparison:\nSitka,AK vs Death Valley,CA',fontsize=20)
+ax.axis([min(dates),max(dates),min(daily_sitka),max(daily_sitka)*1.1])
+plt.show()
