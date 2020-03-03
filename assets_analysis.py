@@ -9,6 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import seaborn as sns
+from math import sqrt
 
 
 def return_portfolios(expected_returns, cov_matrix):
@@ -44,6 +45,24 @@ def return_portfolios(expected_returns, cov_matrix):
     df = df[column_order]
    
     return df
+
+
+def calculate_correlation(set_x, set_y):
+    '''calculates correlation between two assets with Pearson correlation formula'''
+    sum_x = sum(set_x)
+    sum_y = sum(set_y)
+
+    sum_x2 = sum([x ** 2 for x in set_x])
+    sum_y2 = sum([y ** 2 for y in set_y])
+
+    sum_xy = sum([i*j for i,j in zip(set_x,set_y)])
+
+    n = len(set_x)
+
+    numerator = n * sum_xy - sum_x * sum_y
+    denominator = sqrt((n * sum_x2 - sum_x ** 2) * (n * sum_y2 - sum_y ** 2))
+
+    return numerator / denominator
 
 
 #data cleaning:
@@ -181,6 +200,20 @@ print(summary_df)
 plt.show()
 
 
+# The next lines print out correlations between a single asset and all the others:
+
+'''
+print("\n\n")
+print("Correlations:\n\n")
+for column1 in df.columns:
+    print(f"{column1}:\n")
+    for column2 in df.columns:
+        print(column2,end= "  ")
+        prov_df = pd.DataFrame({"asset1":df[column1],"asset2":df[column2]})
+        prov_df.dropna(inplace=True)
+        print(round(calculate_correlation(prov_df["asset1"],prov_df["asset2"]),2))
+    print("\n\n")
+'''
 
 
 #NB. gli anni considerati influenzano notevolmente i ritorni previsti con questo genere
