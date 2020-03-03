@@ -1,4 +1,4 @@
-'''Analysis on the last 25 years of data (emerging markets data begins in 1995)
+'''Analysis of the returns of different assets
 Per funzionare il programma deve essere nella stessa cartella del file di testo asset_returns.txt.
 Questo file è fornito nella stessa repository di github.
 '''
@@ -74,6 +74,11 @@ df = pd.read_csv("asset_returns.csv")
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
 
+
+# ALL THE NEXT SINGLE ASSETS PLOTS TAKE INTO ACCOUNT DIFFERENT TIME PERIODS
+# SINCE THERE IS DATA AVAILABLE STARTING FROM DIFFERENT TIMES
+
+
 # Create histograms of all assets (real) returns:
 
 '''
@@ -94,7 +99,7 @@ for column in list(df.columns)[2:]:
 
 # Create Boxplots of all the assets (real) returns in a new folder:
 
-
+'''
 
 if not os.path.exists("./Assets_Returns_boxplots"):
     os.mkdir("Assets_Returns_boxplots")
@@ -107,13 +112,12 @@ for column in list(df.columns)[2:]:
     plt.ylabel("Percentage change")
     plt.savefig(f"./Assets_Returns_boxplots/{column}.png")
     plt.clf()
-
-
-
+'''
 
 
 # Create violinplots of all the assets (real) returns in a new folder:
 
+'''
 if not os.path.exists("./Assets_Returns_violinplots"):
     os.mkdir("Assets_Returns_violinplots")
 
@@ -125,11 +129,12 @@ for column in list(df.columns)[2:]:
     plt.ylabel("Percentage change")
     plt.savefig(f"./Assets_Returns_violinplots/{column}.png")
     plt.clf()
-
+'''
 
 
 # Boxplots of all the assets returns (returns in this case don't account
 # for inflation, which can be seen as a distribution as the first plot)
+# In this case aswell the time periods considered vary according to avaiability of this one
 
 
 del df["Year"]
