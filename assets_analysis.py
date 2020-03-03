@@ -1,9 +1,14 @@
-'''analysis on the last 25 years of data (emerging markets data begins in 1995)'''
+'''Analysis on the last 25 years of data (emerging markets data begins in 1995)
+Per funzionare il programma deve essere nella stessa cartella del file di testo asset_returns.txt.
+Questo file è fornito nella stessa repository di github.
+'''
+
 
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+import seaborn as sns
 
 
 def return_portfolios(expected_returns, cov_matrix):
@@ -69,8 +74,9 @@ df = pd.read_csv("asset_returns.csv")
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
 
-# Create histograms of all assets returns:
-# if you have them or don't want them just comment out the next lines.
+# Create histograms of all assets (real) returns:
+
+'''
 
 if not os.path.exists("./Assets_Returns_histograms"):
     os.mkdir("Assets_Returns_histograms")
@@ -84,13 +90,61 @@ for column in list(df.columns)[2:]:
     plt.ylabel("Frequency")
     plt.savefig(f"./Assets_Returns_histograms/{column}.png")
     plt.clf()
+'''
 
+# Create Boxplots of all the assets (real) returns in a new folder:
+
+
+
+if not os.path.exists("./Assets_Returns_boxplots"):
+    os.mkdir("Assets_Returns_boxplots")
+
+for column in list(df.columns)[2:]:
+    prov_df = pd.DataFrame({"Year":df.Year,"Returns":df[column]-df["Inflation"]})
+    prov_df.dropna(inplace=True)
+    sns.boxplot(data=list(prov_df.Returns))
+    plt.title(f"Frequency of {column}'s yearly real returns")
+    plt.ylabel("Percentage change")
+    plt.savefig(f"./Assets_Returns_boxplots/{column}.png")
+    plt.clf()
+
+
+
+
+
+# Create violinplots of all the assets (real) returns in a new folder:
+
+if not os.path.exists("./Assets_Returns_violinplots"):
+    os.mkdir("Assets_Returns_violinplots")
+
+for column in list(df.columns)[2:]:
+    prov_df = pd.DataFrame({"Year":df.Year,"Returns":df[column]-df["Inflation"]})
+    prov_df.dropna(inplace=True)
+    sns.violinplot(data=list(prov_df.Returns))
+    plt.title(f"Frequency of {column}'s yearly real returns")
+    plt.ylabel("Percentage change")
+    plt.savefig(f"./Assets_Returns_violinplots/{column}.png")
+    plt.clf()
+
+
+
+# Boxplots of all the assets returns (returns in this case don't account
+# for inflation, which can be seen as a distribution as the first plot)
+
+
+del df["Year"]
+fig = plt.figure(figsize=(16,10))
+sns.boxplot(data=df)
+plt.xticks(rotation=90)
+fig.subplots_adjust(bottom=0.3)
+plt.tick_params(labelright=True)
+plt.yticks(range(-50,130,10))
+plt.show()
+plt.clf()
 
 
 # Create random portolios with specific assets:
 
-
-del df["Year"]
 
 assets_considered_data = {"US_stock_market":df["US Stock Market"]-df["Inflation"],
                           "US Small Cap":df["US Small Cap"]-df["Inflation"],
@@ -131,5 +185,5 @@ plt.show()
 # estremamente semplicistico. Altri modelli di calcolo, che tengono conto di valutazioni attuali e passate
 # potrebbero essere decisamente più adeguati (possibilmente TODO in futuro)
 
-# TODO aggiungere metodo di calcolo della linea di frontiera, con la possibilità di ottenere il portfolio migliore
+# TODO aggiungere metodo di calcolo della linea di frontiera efficiente, con la possibilità di ottenere il portfolio migliore
 # contenente gli asset suggeriti, per un determinato livello di volatilità
