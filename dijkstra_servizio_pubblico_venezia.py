@@ -130,7 +130,7 @@ def dijkstras_target(graph,start,target):
 
 
 my_graph = Graph()
-connections = [("p.le roma","ferrovia",5),("p.le roma","santa marta",5),("santa marta","s.basilio",5),
+connections = [("p.le roma","ferrovia",5),("p.le roma","santa marta",5),("santa marta","san basilio",5),
                ("san basilio","sacca fisola",3),("san basilio","tronchetto",10),("p.le roma","tronchetto",7),
                ("san basilio","zattere",3),("sacca fisola","palanca",4),("zattere","palanca",3),
                ("palanca","redentore",3),("redentore","zitelle",3),("zitelle","san giorgio",3),
@@ -160,10 +160,14 @@ for connection in connections:
     my_graph.add_edge(connection[0],connection[1],connection[2])
 
 
-punto_partenza = "pellestrina"
-punto_arrivo = "marcopolo"
+punto_partenza = "santa marta"
+punto_arrivo = "burano"
 distance,path = dijkstras_target(my_graph,punto_partenza,punto_arrivo)
 if distance and path:
     print(f"Time from {punto_partenza} to {punto_arrivo}: {distance} minutes\nPath: {path}")
+
 print("\n\n")
-my_graph.print_adj_list()
+distances = dijkstras(my_graph,punto_partenza)
+print(f"Da {punto_partenza}:")
+for k,v in distances.items():
+    print(f"Per arrivare a {k} ci vogliono {v[0]} minuti")
