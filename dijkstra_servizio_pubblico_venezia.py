@@ -86,6 +86,7 @@ def dijkstras(graph,start):
     return distances
 
 def dijkstras_target(graph,start,target):
+    ''' ottiene il percorso più breve fra i vertici start e target, ritornando percorso e tempo di percorrenza stimato'''
     distances = {}
     for vertex in graph.adj_list.keys():
         distances[vertex] = [inf,None]
@@ -125,7 +126,6 @@ def dijkstras_target(graph,start,target):
     except:
         print("The destination you have selected doesn't exist in the database")
         return None,None
-            
         
 
 
